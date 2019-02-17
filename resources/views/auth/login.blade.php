@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.frontend.app')
 @section('title', 'login-page')
 @section('content')
 <div class="sidebar-page-container">
