@@ -39,12 +39,18 @@
                 @if (Request::is('admin*'))
                     <li class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">
                         <a href="{{ route('admin.dashboard') }}">
-                            <i class="material-icons">home</i>
-                            <span>Home</span>
+                            <i class="material-icons">dashboard</i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('admin/tag*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.tag.index') }}">
+                            <i class="material-icons">tag</i>
+                            <span>Tag</span>
                         </a>
                     </li>
                    
-                    <li>
+                    {{-- <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">swap_calls</i>
                             <span>User Interface (UI)</span>
@@ -54,17 +60,17 @@
                                 <a href="pages/ui/alerts.html">Alerts</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 @endif
                 @if (Request::is('author*'))
                 <li class="{{Request::is('author/dashboard') ? 'active' : ''}}">
                     <a href="{{ route('author.dashboard') }}">
-                        <i class="material-icons">home</i>
-                        <span>Home</span>
+                        <i class="material-icons">dashboard</i>
+                        <span>Dashboard</span>
                     </a>
                 </li>
                
-                <li>
+                {{-- <li>
                     <a href="javascript:void(0);" class="menu-toggle">
                         <i class="material-icons">swap_calls</i>
                         <span>User Interface (UI)</span>
@@ -74,7 +80,7 @@
                             <a href="pages/ui/alerts.html">Alerts</a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             @endif
                
             </ul>
