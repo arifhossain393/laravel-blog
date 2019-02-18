@@ -14,8 +14,19 @@
                     <ul class="dropdown-menu pull-right">
                         <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
                         <li role="separator" class="divider"></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
+                        <li>
+                               
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                <i class="material-icons">input</i>Sign Out
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                             
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -25,8 +36,29 @@
         <div class="menu">
             <ul class="list">
                 <li class="header">MAIN NAVIGATION</li>
-                <li class="active">
-                    <a href="index.html">
+                @if (Request::is('admin*'))
+                    <li class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                        <a href="{{ route('admin.dashboard') }}">
+                            <i class="material-icons">home</i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                   
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">swap_calls</i>
+                            <span>User Interface (UI)</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="pages/ui/alerts.html">Alerts</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+                @if (Request::is('author*'))
+                <li class="{{Request::is('author/dashboard') ? 'active' : ''}}">
+                    <a href="{{ route('author.dashboard') }}">
                         <i class="material-icons">home</i>
                         <span>Home</span>
                     </a>
@@ -43,6 +75,8 @@
                         </li>
                     </ul>
                 </li>
+            @endif
+               
             </ul>
         </div>
         <!-- #Menu -->
