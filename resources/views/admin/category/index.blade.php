@@ -1,11 +1,11 @@
 @extends('layouts.backend.app')
-@section('title', 'Tags')
+@section('title', 'Categoris')
 @push('css')
      <!-- JQuery DataTable Css -->
      <link href="{{asset('assets/backend/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet">
      <style>
             .btn.btn-primary.tag {
-                width: 80px;
+                width: 130px;
                 float: right;
                 margin-top: -23px;
                 margin-right: 20px;
@@ -24,9 +24,9 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            Tag List
+                            Category List
                         </h2>
-                        <div class="btn btn-primary tag"><a href="{{route('admin.tag.create')}}">Add Tag</a></div>
+                        <div class="btn btn-primary tag"><a href="{{route('admin.category.create')}}">Add New Category</a></div>
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -48,6 +48,7 @@
                                         <th>Sl</th>
                                         <th>Name</th>
                                         <th>Slug</th>
+                                        <th>Image</th>
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -57,6 +58,7 @@
                                         <th>Sl</th>
                                         <th>Name</th>
                                         <th>Slug</th>
+                                        <th>Image</th>
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -65,17 +67,18 @@
                                     @php
                                       $sl = 0;  
                                     @endphp
-                                    @foreach ($tags as $tag)
+                                    @foreach ($category as $cat)
                                     <tr>
                                         <td>{{ $sl++ }}</td>
-                                        <td>{{ $tag->name }}</td>
-                                        <td>{{ $tag->slug }}</td>
-                                        <td>{{ $tag->created_at }}</td>
+                                        <td>{{ $cat->name }}</td>
+                                        <td>{{ $cat->slug }}</td>
+                                        <td><img src="{{ $cat->image }}" alt="" style="height: 60px; weidth: 60px; margin-bottom: 10px;"></td>
+                                        <td>{{ $cat->created_at }}</td>
                                         <td>
-                                            <a href="{{ route('admin.tag.edit', $tag->id) }}" class="btn btn-primary"><i class="material-icons">edit</i></a>
+                                            <a href="{{ route('admin.category.edit', $cat->id) }}" class="btn btn-primary"><i class="material-icons">edit</i></a>
                                             {{-- <a href="" class="btn btn-info"><i class="material-icons">view</i></a> --}}
-                                            <button type="button" class="btn btn-danger" onclick="deleteTag({{ $tag->id }})"><i class="material-icons">delete</i></button>
-                                                <form id="delete-form-{{ $tag->id }}" action="{{ route('admin.tag.destroy', $tag->id) }}" method="POST" style="display:none;">
+                                            <button type="button" class="btn btn-danger" onclick="deleteTag({{ $cat->id }})"><i class="material-icons">delete</i></button>
+                                                <form id="delete-form-{{ $cat->id }}" action="{{ route('admin.category.destroy', $cat->id) }}" method="POST" style="display:none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
