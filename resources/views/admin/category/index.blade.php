@@ -77,7 +77,7 @@
                                         <td>
                                             <a href="{{ route('admin.category.edit', $cat->id) }}" class="btn btn-primary"><i class="material-icons">edit</i></a>
                                             {{-- <a href="" class="btn btn-info"><i class="material-icons">view</i></a> --}}
-                                            <button type="button" class="btn btn-danger" onclick="deleteTag({{ $cat->id }})"><i class="material-icons">delete</i></button>
+                                            <button type="button" class="btn btn-danger" onclick="deleteCat({{ $cat->id }})"><i class="material-icons">delete</i></button>
                                                 <form id="delete-form-{{ $cat->id }}" action="{{ route('admin.category.destroy', $cat->id) }}" method="POST" style="display:none;">
                                                     @csrf
                                                     @method('DELETE')
@@ -114,7 +114,7 @@
 <script src="{{asset('assets/backend/js/pages/tables/jquery-datatable.js')}}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-    function deleteTag(id){
+    function deleteCat(id){
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this imaginary file!",
