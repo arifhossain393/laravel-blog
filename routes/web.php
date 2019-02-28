@@ -23,6 +23,7 @@ Route::group(['as'=>'admin.','prefix'=>'admin', 'namespace'=>'Admin', 'middlewar
     Route::get('dashboard', 'AdminController@index')->name('dashboard');
     Route::resource('tag', 'TagController');
     Route::resource('category', 'CategoryController');
+    Route::resource('post', 'PostController');
     
 });
 
