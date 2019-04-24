@@ -25,6 +25,7 @@
                     <div class="header">
                         <h2>
                             Category List
+                            <span class="badge bg-blue">{{ $category->count() }}</span>
                         </h2>
                         <div class="btn btn-primary tag"><a href="{{route('admin.category.create')}}">Add New Category</a></div>
                         <ul class="header-dropdown m-r--5">
@@ -47,6 +48,7 @@
                                     <tr>
                                         <th>Sl</th>
                                         <th>Name</th>
+                                        <th>Post count</th>
                                         <th>Slug</th>
                                         <th>Image</th>
                                         <th>Date</th>
@@ -57,6 +59,7 @@
                                     <tr>
                                         <th>Sl</th>
                                         <th>Name</th>
+                                        <th>Post count</th>
                                         <th>Slug</th>
                                         <th>Image</th>
                                         <th>Date</th>
@@ -71,6 +74,7 @@
                                     <tr>
                                         <td>{{ $sl++ }}</td>
                                         <td>{{ $cat->name }}</td>
+                                        <td>{{ $cat->posts->count() }}</td>
                                         <td>{{ $cat->slug }}</td>
                                         <td><img src="{{ $cat->image }}" alt="" style="height: 60px; weidth: 60px; margin-bottom: 10px;"></td>
                                         <td>{{ $cat->created_at }}</td>

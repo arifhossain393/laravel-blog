@@ -24,9 +24,10 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            Category List
+                            Post List
+                            <span class="badge bg-blue">{{ $posts->count() }}</span>
                         </h2>
-                        <div class="btn btn-primary tag"><a href="{{route('admin.category.create')}}">Add New Category</a></div>
+                        <div class="btn btn-primary tag"><a href="{{route('admin.post.create')}}">Add New Post</a></div>
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -46,20 +47,24 @@
                                 <thead>
                                     <tr>
                                         <th>Sl</th>
-                                        <th>Name</th>
-                                        <th>Slug</th>
-                                        <th>Image</th>
-                                        <th>Date</th>
+                                        <th>Title</th>
+                                        <th>Author Name</th>
+                                        <th>view Count</th>
+                                        <th>Status</th>
+                                        <th>Approve</th>
+                                        <th>date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
                                         <th>Sl</th>
-                                        <th>Name</th>
-                                        <th>Slug</th>
-                                        <th>Image</th>
-                                        <th>Date</th>
+                                        <th>Title</th>
+                                        <th>Author Name</th>
+                                        <th>view Count</th>
+                                        <th>Status</th>
+                                        <th>Approve</th>
+                                        <th>date</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
@@ -67,18 +72,33 @@
                                     @php
                                       $sl = 0;  
                                     @endphp
-                                    @foreach ($category as $cat)
+                                    @foreach ($posts as $post)
                                     <tr>
                                         <td>{{ $sl++ }}</td>
-                                        <td>{{ $cat->name }}</td>
-                                        <td>{{ $cat->slug }}</td>
-                                        <td><img src="{{ $cat->image }}" alt="" style="height: 60px; weidth: 60px; margin-bottom: 10px;"></td>
-                                        <td>{{ $cat->created_at }}</td>
+                                        <td>{{ str_limit($post->title, 15) }}</td>
+                                        <td>{{ $post->user->name }}</td>
+                                        <td>{{ $post->view_count }}</td>
                                         <td>
-                                            <a href="{{ route('admin.category.edit', $cat->id) }}" class="btn btn-primary"><i class="material-icons">edit</i></a>
+                                            @if($post->status == true)
+                                                <span class="badge bg-blue">Published</span>
+                                            @else
+                                                <span class="badge bg-pink">Pending</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($post->is_approved == true)
+                                                <span class="badge bg-blue">Approved</span>
+                                            @else
+                                                <span class="badge bg-pink">Pending</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $post->created_at }}</td>
+                                        <td>
+                                                <a href="{{ route('admin.post.show', $post->id) }}" class="btn btn-primary"><i class="material-icons">visibility</i></a>
+                                            <a href="{{ route('admin.post.edit', $post->id) }}" class="btn btn-primary"><i class="material-icons">edit</i></a>
                                             {{-- <a href="" class="btn btn-info"><i class="material-icons">view</i></a> --}}
-                                            <button type="button" class="btn btn-danger" onclick="deleteCat({{ $cat->id }})"><i class="material-icons">delete</i></button>
-                                                <form id="delete-form-{{ $cat->id }}" action="{{ route('admin.category.destroy', $cat->id) }}" method="POST" style="display:none;">
+                                            <button type="button" class="btn btn-danger" onclick="deletePost({{ $post->id }})"><i class="material-icons">delete</i></button>
+                                                <form id="delete-form-{{ $post->id }}" action="{{ route('admin.post.destroy', $post->id) }}" method="POST" style="display:none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -114,7 +134,7 @@
 <script src="{{asset('assets/backend/js/pages/tables/jquery-datatable.js')}}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-    function deleteCat(id){
+    function deletePost(id){
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this imaginary file!",

@@ -25,6 +25,7 @@
                     <div class="header">
                         <h2>
                             Tag List
+                            <span class="badge bg-blue">{{ $tags->count() }}</span>
                         </h2>
                         <div class="btn btn-primary tag"><a href="{{route('admin.tag.create')}}">Add Tag</a></div>
                         <ul class="header-dropdown m-r--5">
@@ -47,6 +48,7 @@
                                     <tr>
                                         <th>Sl</th>
                                         <th>Name</th>
+                                        <th>Posts Count</th>
                                         <th>Slug</th>
                                         <th>Date</th>
                                         <th>Action</th>
@@ -56,6 +58,7 @@
                                     <tr>
                                         <th>Sl</th>
                                         <th>Name</th>
+                                        <th>Posts Count</th>
                                         <th>Slug</th>
                                         <th>Date</th>
                                         <th>Action</th>
@@ -69,6 +72,7 @@
                                     <tr>
                                         <td>{{ $sl++ }}</td>
                                         <td>{{ $tag->name }}</td>
+                                        <td>{{ $tag->posts->count() }}</td>
                                         <td>{{ $tag->slug }}</td>
                                         <td>{{ $tag->created_at }}</td>
                                         <td>
