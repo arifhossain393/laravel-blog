@@ -61,6 +61,12 @@
                             <span>Posts</span>
                         </a>
                     </li>
+                    <li class="{{ Request::is('admin/postpending*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.postpending') }}">
+                            <i class="material-icons">perm_media</i>
+                            <span>Pending Posts</span>
+                        </a>
+                    </li>
                    
                     {{-- <li>
                         <a href="javascript:void(0);" class="menu-toggle">
@@ -81,7 +87,12 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-               
+                <li class="{{ Request::is('author/post*') ? 'active' : '' }}">
+                    <a href="{{ route('author.post.index') }}">
+                        <i class="material-icons">perm_media</i>
+                        <span>Posts</span>
+                    </a>
+                </li>
                 {{-- <li>
                     <a href="javascript:void(0);" class="menu-toggle">
                         <i class="material-icons">swap_calls</i>

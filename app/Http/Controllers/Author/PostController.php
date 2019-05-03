@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Author;
 
 use App\Tag;
 use App\Post;
@@ -12,7 +12,6 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-
 class PostController extends Controller
 {
     /**
@@ -22,8 +21,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->get();
-        return view('admin.post.index', compact('posts'));
+        $posts = Auth::user()->posts()->latest()->get();
+        return view('author.post.index', compact('posts'));
     }
 
     /**
@@ -35,7 +34,7 @@ class PostController extends Controller
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('admin.post.insertpost', compact('categories', 'tags'));
+        return view('author.post.insertpost', compact('categories', 'tags'));
     }
 
     /**
@@ -79,14 +78,13 @@ class PostController extends Controller
             }else{
                 $post->status = false;
             }
-            $post->is_approved = true;
+            $post->is_approved = false;
             $post->save();
 
             $post->categories()->attach($request->categories);
             $post->tags()->attach($request->tags);
             Toastr::success('Post saved successfully :)', 'success');
             return redirect()->route('admin.post.index');
-
 
     }
 
@@ -98,8 +96,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
-        return view('admin.post.show', compact('post'));
+        if($post->user_id != Auth::id()){
+            Toastr::error('You are not access this post)', 'Error');
+            return redirect()->back();
+        }
+        return view('author.post.show', compact('post'));
     }
 
     /**
@@ -110,10 +111,14 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //show the post edit page
-        $categories = Category::all();
-        $tags = Tag::all();
-        return view('admin.post.editpost', compact('post', 'categories', 'tags'));
+        if($post->user_id != Auth::id()){
+            Toastr::error('You are not access this post)', 'Error');
+            return redirect()->back();
+        }
+       //show the post edit page
+       $categories = Category::all();
+       $tags = Tag::all();
+       return view('author.post.editpost', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -125,6 +130,10 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        if($post->user_id != Auth::id()){
+            Toastr::error('You are not access this post)', 'Error');
+            return redirect()->back();
+        }
         //update post
         $this->validate($request,[
             'title' => 'required|unique:posts',
@@ -164,32 +173,14 @@ class PostController extends Controller
             }else{
                 $post->status = false;
             }
-            $post->is_approved = true;
+            $post->is_approved = false;
             $post->save();
 
             $post->categories()->sync($request->categories);
             $post->tags()->sync($request->tags);
 
             Toastr::success('Post Update successfully :)', 'success');
-            return redirect()->route('admin.post.index');
-    }
-
-    public function pending()
-    {
-        $posts = Post::where('is_approved', false)->get();
-        return view('admin.post.pending', compact('posts'));
-    }
-    public function approve($id)
-    {
-        $post = Post::find($id);
-        if($post->is_approved == false){
-            $post->is_approved = true;
-            $post->save();
-            Toastr::success('Post Approve:)', 'success');
-        }else{
-            Toastr::info('this post already approved)', 'Info');
-        }
-        return redirect()->back();
+            return redirect()->route('author.post.index');
     }
 
     /**
